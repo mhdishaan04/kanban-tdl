@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>To Do List</title>
+</head>
+
+<body>
+    <div class="input-box">
+        <h1>To-Do List</h1>
+        <input class="tasks" placeholder="Enter Your Task">
+        <button class="add-button" onclick="addtsk()">Add Task</button>
+    </div>
+
+    <div class="tasks-screen">
+        <div class="tasks-list">
+            <h3>To Do</h3>
+            <div id="todo-column" class="cur-task-list"></div>
+        </div>
+
+        <div class="pending-tasks">
+            <h3>In Progress</h3>
+            <div id="doing-column" class="cur-task-list"></div>
+        </div>
+
+        <div class="completed-tasks">
+            <h3>Done</h3>
+            <div id="done-column" class="comp-task-list"></div>
+        </div>
+    </div>
+
+
+    <script>
+        let draggedItem = null;
+
+        function addtsk() {
+            const input = document.querySelector(".tasks");
+            const taskText = input.value;
+
+            if (taskText.trim() === "") {
+                alert("Please enter a task!");
+                return;
+            }
+
+            const todoColumn = document.getElementById("todo-column");
+
+            const taskDiv = document.createElement("div");
+            taskDiv.className = "task-bar";
+            taskDiv.draggable = true; // Make it draggable
+
+            // Add drag event listeners
+            taskDiv.addEventListener('dragstart', function () {
+                draggedItem = taskDiv;
+                setTimeout(() => {
+                    taskDiv.classList.add('dragging');
+                }, 0);
+            });
+
+            taskDiv.addEventListener('dragend', function () {
+                setTimeout(() => {
+                    draggedItem = null;
+                    taskDiv.classList.remove('dragging');
+                }, 0);
+            });
+
+            taskDiv.innerHTML = `<span class="task-text">${taskText}</span> <br> 
+                                 <button class='edit-button' onclick='editTask(this)'>✏️</button> 
+                                 <button class='delete-button' onclick='deleteTask(this)'>❌</button>`;
+
+            todoColumn.appendChild(taskDiv);
+            input.value = "";
+        }
+
+        function editTask(btn) {
+            const taskDiv = btn.parentElement;
+            const textSpan = taskDiv.querySelector(".task-text");
+            const currentText = textSpan.innerText;
+
+            const newText = prompt("Edit your task:", currentText);
+
+            if (newText !== null && newText.trim() !== "") {
+                textSpan.innerText = newText;
+            }
+        }
+
+        function deleteTask(btn) {
+            const taskDiv = btn.parentElement;
+            taskDiv.remove();
+        }
+
+        const columns = document.querySelectorAll('.cur-task-list, .comp-task-list');
+
+        columns.forEach(column => {
+            column.addEventListener('dragover', function (e) {
+                e.preventDefault();
+            });
+
+            column.addEventListener('dragenter', function (e) {
+                e.preventDefault();
+            });
+
+            column.addEventListener('drop', function (e) {
+                e.preventDefault();
+                if (draggedItem) {
+                    this.appendChild(draggedItem);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
