@@ -7,26 +7,26 @@
     <title>To Do List</title>
 </head>
 
-<body>
+<body style="margin: 0; background-color: rgba(0, 0, 0, 0.921); ">
     <div class="input-box">
-        <h1>To-Do List</h1>
+        <h1 style="background-color: black; margin: 0 0 20px 0; padding: 20px;border-top: 4px solid gray; border-bottom: 4px solid gray;">To-Do List </h1>
         <input class="tasks" placeholder="Enter Your Task">
         <button class="add-button" onclick="addtsk()">Add Task</button>
     </div>
 
     <div class="tasks-screen">
         <div class="tasks-list">
-            <h3>To Do</h3>
+            <h3 style="color: red;">To Do</h3>
             <div id="todo-column" class="cur-task-list"></div>
         </div>
 
         <div class="pending-tasks">
-            <h3>In Progress</h3>
+            <h3 style="color: yellow;">In Progress</h3>
             <div id="doing-column" class="cur-task-list"></div>
         </div>
 
         <div class="completed-tasks">
-            <h3>Done</h3>
+            <h3 style="color: green;">Done</h3>
             <div id="done-column" class="comp-task-list"></div>
         </div>
     </div>
@@ -48,9 +48,7 @@
 
             const taskDiv = document.createElement("div");
             taskDiv.className = "task-bar";
-            taskDiv.draggable = true; // Make it draggable
-
-            // Add drag event listeners
+            taskDiv.draggable = true; 
             taskDiv.addEventListener('dragstart', function () {
                 draggedItem = taskDiv;
                 setTimeout(() => {
@@ -65,16 +63,17 @@
                 }, 0);
             });
 
-            taskDiv.innerHTML = `<span class="task-text">${taskText}</span> <br> 
-                                 <button class='edit-button' onclick='editTask(this)'>✏️</button> 
-                                 <button class='delete-button' onclick='deleteTask(this)'>❌</button>`;
+            taskDiv.innerHTML = `<div><span class="task-text">${taskText}</span> <br> </div>
+                                <div>
+                                 <button class='edit-button' onclick='editTask(this)'>Edit</button> 
+                                 <button class='delete-button' onclick='deleteTask(this)'>Delete</button></div>`;
 
             todoColumn.appendChild(taskDiv);
             input.value = "";
         }
 
         function editTask(btn) {
-            const taskDiv = btn.parentElement;
+            const taskDiv = btn.parentElement.parentElement;
             const textSpan = taskDiv.querySelector(".task-text");
             const currentText = textSpan.innerText;
 
@@ -86,7 +85,7 @@
         }
 
         function deleteTask(btn) {
-            const taskDiv = btn.parentElement;
+            const taskDiv = btn.parentElement.parentElement;
             taskDiv.remove();
         }
 
