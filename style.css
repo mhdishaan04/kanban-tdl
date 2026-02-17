@@ -90,7 +90,7 @@ h3 {
     padding: 15px;
     color: rgb(32, 32, 32);
     margin-bottom: 15px;
-    background-color: rgb(32, 32, 32);
+    background-color: rgb(255, 255, 255);
     border: 3px solid gray;
     border-radius: 10px;
     text-align: center;
@@ -99,6 +99,7 @@ h3 {
     justify-content: center;
     display: grid;
     grid-template-columns: repeat(2,2fr);
+    box-shadow: 0 0 10px 9px inset;
 }
 
 .cur-task-list,
